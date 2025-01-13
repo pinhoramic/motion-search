@@ -9,6 +9,9 @@
 
 #include "motion_search.h"
 
+#include <cstdlib>
+#include <string.h>
+
 MotionVectorField::MotionVectorField(const DIM dim, int stride,
                                      int padded_height, int blocksize)
     : m_firstMB(dim.width / MB_WIDTH + 2 + 1), m_blocksize(blocksize),

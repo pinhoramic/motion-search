@@ -10,6 +10,8 @@
 
 #include "EOFException.h"
 
+#include <string.h>
+
 namespace {
 
 enum { HEADER_SIZE = 4096 };

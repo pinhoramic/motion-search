@@ -14,6 +14,8 @@
 #include <cstdlib>
 #endif
 
+#include <string.h>
+
 enum { ALIGN = 64 };
 
 extern "C" void *aligned_malloc(const size_t size) {

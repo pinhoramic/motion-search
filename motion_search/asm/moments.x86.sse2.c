@@ -10,6 +10,12 @@
 
 #include "motion_search/intrinsic.h"
 
+#if defined(_MSC_VER)
+#  define MOTION_SEARCH_ALIGN(x) __declspec(align(x))
+#elif defined(__GNUC__) || defined(__clang__)
+#  define MOTION_SEARCH_ALIGN(x) __attribute__ ((aligned(x)))
+#endif
+
 #if defined(_X86) || defined(_X64)
 
 int fastSAD16_sse2(FAST_SAD_FORMAL_ARGS) {
@@ -405,7 +411,7 @@ int fast_calc_mse4_sse2(FAST_MSE_FORMAL_ARGS) {
 int fast_bidir_mse16_sse2(FAST_BIDIR_MSE_FORMAL_ARGS) {
   UNUSED(block_width);
 
-  static const __declspec(align(16)) int constant_16384[4] = {16384, 16384,
+  static const MOTION_SEARCH_ALIGN(16) int constant_16384[4] = {16384, 16384,
                                                               16384, 16384};
   int i;
   int sum2;
@@ -506,7 +512,7 @@ int fast_bidir_mse16_sse2(FAST_BIDIR_MSE_FORMAL_ARGS) {
 int fast_bidir_mse8_sse2(FAST_BIDIR_MSE_FORMAL_ARGS) {
   UNUSED(block_width);
 
-  static const __declspec(align(16)) int constant_16384[4] = {16384, 16384,
+  static const MOTION_SEARCH_ALIGN(16) int constant_16384[4] = {16384, 16384,
                                                               16384, 16384};
   int i;
   int sum2;
@@ -583,7 +589,7 @@ int fast_bidir_mse8_sse2(FAST_BIDIR_MSE_FORMAL_ARGS) {
 int fast_bidir_mse4_sse2(FAST_BIDIR_MSE_FORMAL_ARGS) {
   UNUSED(block_width);
 
-  static const __declspec(align(16)) int constant_16384[4] = {16384, 16384,
+  static const MOTION_SEARCH_ALIGN(16) int constant_16384[4] = {16384, 16384,
                                                               16384, 16384};
   int i;
   int sum2;
