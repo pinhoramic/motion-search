@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "xplatform.h"
-
 #if defined(_WINDOWS)
 // 4514 unreferenced inline function has been removed
 // 4710 function not inlined

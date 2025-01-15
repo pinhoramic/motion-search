@@ -26,7 +26,7 @@ ComplexityAnalyzer::ComplexityAnalyzer(IVideoSequenceReader *reader,
   m_GOP_count = 0;
 
   for (int i = 0; i <= m_subGOP_size; i++)
-    pics.push_back(new YUVFrame(m_pReader));
+    pics.push_back(new YUVFrame(m_dim));
 
   m_pPmv = new MotionVectorField(m_dim, m_stride, m_padded_height, MB_WIDTH);
   m_pB1mv = new MotionVectorField(m_dim, m_stride, m_padded_height, MB_WIDTH);
@@ -160,7 +160,9 @@ void ComplexityAnalyzer::analyze() {
         m_GOP_bits = 0;
 
         td = 0;
-        pics[0]->readNextFrame();
+        YUVFrame* pic = pics[0];
+        pic->setPos(m_pReader->count());
+        m_pReader->read(pic->y(), pic->u(), pic->v());
         process_i_picture(pics[0]);
       } else {
         pics[0]->swapFrame(pics[(size_t)m_subGOP_size]);
@@ -168,7 +170,9 @@ void ComplexityAnalyzer::analyze() {
 
       for (td_ref = td; td < (m_GOP_size - 1) && (td - td_ref) < m_subGOP_size;
            td++) {
-        pics[(size_t)(td + 1 - td_ref)]->readNextFrame();
+        YUVFrame* pic = pics[(size_t)(td + 1 - td_ref)];
+        pic->setPos(m_pReader->count());
+        m_pReader->read(pic->y(), pic->u(), pic->v());
       }
 
       process_p_picture(/* target    */ pics[(size_t)(td - td_ref)],

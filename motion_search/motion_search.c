@@ -11,6 +11,7 @@
 #include "common.h"
 #include "frame.h"
 #include "moments.h"
+#include "xplatform.h"
 
 #include <stdlib.h>
 

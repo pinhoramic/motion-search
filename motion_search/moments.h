@@ -9,6 +9,7 @@
 #pragma once
 
 #include "common.h"
+#include "xplatform.h"
 
 #ifdef __cplusplus
 extern "C" {

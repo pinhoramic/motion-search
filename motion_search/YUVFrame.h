@@ -7,13 +7,19 @@
 
 #pragma once
 
-#include "IVideoSequenceReader.h"
 #include "common.h"
-#include "memory.h"
+
+#include <memory.h>
+
+namespace memory {
+struct aligned_deallocator;
+template <typename data_t>
+using aligned_unique_ptr = std::unique_ptr<data_t, aligned_deallocator>;
+} // namespace memory
 
 class YUVFrame {
 public:
-  YUVFrame(IVideoSequenceReader *rdr);
+  YUVFrame(DIM dim);
   virtual ~YUVFrame(void) = default;
 
   inline uint8_t *y(void) { return m_pY; }
@@ -23,8 +29,9 @@ public:
   inline const DIM dim(void) { return m_dim; }
   inline int stride(void) { return m_stride; }
 
+  inline void setPos(int pos) { m_pos = pos; }
+
   void swapFrame(YUVFrame *other);
-  void readNextFrame(void);
   void boundaryExtend(void);
 
 private:
@@ -36,8 +43,6 @@ private:
   uint8_t *m_pY;
   uint8_t *m_pU;
   uint8_t *m_pV;
-
-  IVideoSequenceReader *m_pReader;
 
   int m_pos;
 

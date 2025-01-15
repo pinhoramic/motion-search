@@ -9,14 +9,15 @@
 #include "YUVFrame.h"
 
 #include "frame.h"
+#include "memory.h"
 
 #include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 
-YUVFrame::YUVFrame(IVideoSequenceReader *rdr)
-    : m_dim(rdr->dim()), m_stride(rdr->dim().width + 2 * HORIZONTAL_PADDING),
-      m_padded_height(rdr->dim().height + 2 * VERTICAL_PADDING), m_pReader(rdr),
+YUVFrame::YUVFrame(DIM dim)
+    : m_dim(dim), m_stride(dim.width + 2 * HORIZONTAL_PADDING),
+      m_padded_height(dim.height + 2 * VERTICAL_PADDING),
       m_pos(-1) {
   size_t frame_size = m_stride * m_padded_height * 3 * sizeof(uint8_t) / 2;
 
@@ -42,11 +43,6 @@ void YUVFrame::swapFrame(YUVFrame *other) {
   std::swap(this->m_pU, other->m_pU);
   std::swap(this->m_pV, other->m_pV);
   std::swap(this->m_pos, other->m_pos);
-}
-
-void YUVFrame::readNextFrame(void) {
-  m_pos = m_pReader->count();
-  m_pReader->read(y(), u(), v());
 }
 
 void YUVFrame::boundaryExtend(void) {

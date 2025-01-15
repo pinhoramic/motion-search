@@ -56,7 +56,8 @@ target_link_libraries (motion_search LINK_PUBLIC
     motion_search_lib
     motion_search_lib_sse2)
 
-set_target_properties(motion_search_lib PROPERTIES PUBLIC_HEADER motion_search/motion_search.h)
+set_target_properties(motion_search_lib PROPERTIES PUBLIC_HEADER
+"motion_search/motion_search.h;motion_search/common.h;motion_search/YUVFrame.h")
 
 target_include_directories(motion_search_lib PRIVATE
   ${CMAKE_SOURCE_DIR}
@@ -90,9 +91,9 @@ ADD_CUSTOM_TARGET(release
 
 install(TARGETS motion_search_lib
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/motion_search)
 install(TARGETS motion_search_lib_sse2
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/motion_search)
 
 install(FILES ${CMAKE_BINARY_DIR}/motion_search.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
